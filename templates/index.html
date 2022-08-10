@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>chat room</title>
+   <!--
+    <script type="text/javascript" src="https:////cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    -->
+
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        var socket = io.connect('http://127.0.0.1:5000');
+
+        socket.on('connect',function(){
+            socket.emit('newUser',$('#userName').val());
+        });
+
+        socket.on('message' , function(newJson) {
+            $("#messages").append('<li><b> ' +newJson.sender +': </b> '+newJson.msg+ ' </li> ');
+            console.log(' Received message');
+        });
+
+        $('#sendbutton').on('click', function() {
+            console.log($('#myMessage').val());
+            socket.emit('message',$('#myMessage').val());
+        });
+
+
+
+    });
+</script>
+
+
+<ul id="messages">
+    {% for msg in messages %}
+        <li>{{msg}}</li>
+    {%endfor%}
+</ul>
+<input type= "text" id= "myMessage">
+</br>
+<input type= "text" id= "userName">
+<button id="sendbutton">Send</button>
+
+</body>
+</html>
