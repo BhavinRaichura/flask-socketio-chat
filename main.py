@@ -9,7 +9,6 @@ app.config['DEBUG']=True
 
 socketio = SocketIO(app,cors_allowed_origins="*")
 
-
 messages =['welcome to msger app']
 
 users={}
